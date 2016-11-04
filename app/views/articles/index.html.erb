@@ -25,5 +25,6 @@
 </table>
 
 <br>
-
-<%= link_to 'New Article', new_article_path %>
+<% if current_user && (current_user.has_role?(:contributor) || current_user.has_role?(:admin)) %>
+  <%= link_to 'New Article', new_article_path %>
+<% end %>
