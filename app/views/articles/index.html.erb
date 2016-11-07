@@ -1,29 +1,42 @@
+<div class="container">
+  <div class="row">
+    <div class="col-sm-6">
+      <h1>Articles</h1>
+    </div>
+    <div class="bottom-align-text col-sm-6">
+      <% if current_user && current_user.has_role?(:contributor) %>
+        <%= link_to 'New Article', new_article_path%>
+      <% end %>
+    </div>
+  </div>
+  <br>
 
-<h1>Articles</h1>
-
-<table>
-  <thead>
-    <tr>
-      <th>Term</th>
-      <th>Definition</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @articles.each do |article| %>
+  <table>
+    <thead>
       <tr>
-        <td><%= article.term %></td>
-        <td><%= article.definition %></td>
-        <td><%= link_to 'Show', article %></td>
-        <td><%= link_to 'Edit', edit_article_path(article) %></td>
-        <td><%= link_to 'Destroy', article, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <th class="col-lg-3">Term</th>
+        <th class="col-lg-6">Definition</th>
+        <th class="col-lg-3">Author</th>
+        <th colspan="3"></th>
       </tr>
-    <% end %>
-  </tbody>
-</table>
+    </thead>
 
-<br>
-<% if current_user && (current_user.has_role?(:contributor) || current_user.has_role?(:admin)) %>
-  <%= link_to 'New Article', new_article_path %>
-<% end %>
+    <tbody>
+      <% @articles.each do |article| %>
+        <tr>
+          <td><%= link_to article.term, article %></td>
+          <td><%= article.definition %></td>
+          <td><%= article.user.email %></td>
+          <% if current_user && current_user.has_role?(:contributor) %>
+          <td><%= link_to 'Show', article %></td>
+          <td><%= link_to 'Edit', edit_article_path(article) %></td>
+          <td><%= link_to 'Destroy', article, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+          <% end %>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+  <br>
+
+</div>
